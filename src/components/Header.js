@@ -12,7 +12,8 @@ import { NotificationsNone, ChatOutlined, PowerSettingsNew,   Search as SearchIc
 
 const useStyle = makeStyles (theme => ( {
   root:{
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    // transform:'translateZ(0)'
   },
   searchInput:{
     opacity:'0.6',
