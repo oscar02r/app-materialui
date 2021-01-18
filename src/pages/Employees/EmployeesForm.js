@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/useForm";
 import { Controls } from "../../components/controls/Controls";
-import * as employeeServices from '../../services/employessService'
+import * as employeeServices from "../../services/employessService";
 
 const genderItems = [
   { id: "male", title: "Male" },
@@ -55,6 +55,18 @@ export default function EmployeesForm() {
             value={email}
             onChange={handleInputChange}
           />
+          <Controls.Input
+            label="Mobile"
+            name="mobile"
+            value={mobile}
+            onChange={handleInputChange}
+          />
+          <Controls.Input
+            label="City"
+            name="city"
+            value={city}
+            onChange={handleInputChange}
+          />
         </Grid>
 
         <Grid xs={6} item>
@@ -65,17 +77,23 @@ export default function EmployeesForm() {
             value={gender}
             items={genderItems}
             onChange={handleInputChange}
-         />
+          />
           <Controls.Select
             name="departmentId"
             label="Department"
             onChange={handleInputChange}
             options={employeeServices.getDepartmentCollection()}
           />
+          <Controls.DatePicker
+            name="hireDate"
+            label="Hire Date"
+            value={hireDate}
+            onChange={handleInputChange}
+          />
           <Controls.Checkbox
             name="isPermanent"
             label="Permanent Employee"
-            value={isPermanent}
+            value={hireDate}
             onChange={handleInputChange}
           />
         </Grid>
