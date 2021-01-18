@@ -23,7 +23,9 @@ const initialFValues = {
 };
 
 export default function EmployeesForm() {
-  const { values, handleInputChange } = useForm(initialFValues);
+  const { values, handleInputChange, errors, setValues } = useForm(
+    initialFValues
+  );
 
   const {
     id,
@@ -37,10 +39,21 @@ export default function EmployeesForm() {
     isPermanent,
   } = values;
 
+  const validate = () => {
+    let temp = {};
+    temp.fullName = fullName ? "" : "This field is requied.";
+    temp.email = /$|.+@.+../.test(email) ? "" : "Email is not valid.";
+    temp.mobile = mobile.length > 9 ? "" : "Minimum 10 numbers required.";
+    temp.departmentId =
+      departmentId.length != 0 ? "" : "This field is requied.";
+      setErrors({...temp})
+  };
   useEffect(() => {}, []);
-
+  const handleSubmit = ()=>{
+    
+  }
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
           <Controls.Input
@@ -93,9 +106,13 @@ export default function EmployeesForm() {
           <Controls.Checkbox
             name="isPermanent"
             label="Permanent Employee"
-            value={hireDate}
+            value={isPermanent}
             onChange={handleInputChange}
           />
+          <div>
+            <Controls.Button text="Submit" type="Submit" />
+            <Controls.Button text="Reset" color="default" />
+          </div>
         </Grid>
       </Grid>
     </Form>
