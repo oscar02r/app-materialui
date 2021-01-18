@@ -23,10 +23,30 @@ const initialFValues = {
 };
 
 export default function EmployeesForm() {
-  const { values, handleInputChange, errors, setValues } = useForm(
-    initialFValues
-  );
-
+  const validate = (fieldValues = values) => {
+    let temp = { ...errors };
+    if ("fullName" in fieldValues)
+      temp.fullName = fieldValues.fullName ? "" : "This field is requied.";
+    if ("email" in fieldValues)
+      temp.email = /$^|.+@.+../.test(fieldValues.email) ? "" : "Email is not valid.";
+    if ("mobile" in fieldValues)
+      temp.mobile = fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers  required.";
+    if ("departmentId" in fieldValues)
+      temp.departmentId =
+      fieldValues.departmentId.length != 0 ? "" : "This field is requied.";
+    setErrors({ ...temp });
+    if (fieldValues == values) return Object.values(temp).every((x) => 
+  x == "");
+  };
+  const {
+    values,
+    setValues,
+    handleInputChange,
+    errors,
+    setErrors,
+    resetForm,
+  } = useForm(initialFValues, true, validate);
+  
   const {
     id,
     fullName,
@@ -39,19 +59,19 @@ export default function EmployeesForm() {
     isPermanent,
   } = values;
 
-  const validate = () => {
-    let temp = {};
-    temp.fullName = fullName ? "" : "This field is requied.";
-    temp.email = /$|.+@.+../.test(email) ? "" : "Email is not valid.";
-    temp.mobile = mobile.length > 9 ? "" : "Minimum 10 numbers required.";
-    temp.departmentId =
-      departmentId.length != 0 ? "" : "This field is requied.";
-      setErrors({...temp})
-  };
+
+
   useEffect(() => {}, []);
-  const handleSubmit = ()=>{
-    
-  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+      window.alert("Hello word");
+    }
+  };
+
+
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
@@ -61,18 +81,21 @@ export default function EmployeesForm() {
             value={fullName}
             onChange={handleInputChange}
             name="fullName"
+            error={errors.fullName}
           />
           <Controls.Input
             label="Email"
             name="email"
             value={email}
             onChange={handleInputChange}
+            error={errors.email}
           />
           <Controls.Input
             label="Mobile"
             name="mobile"
             value={mobile}
             onChange={handleInputChange}
+            error={errors.mobile}
           />
           <Controls.Input
             label="City"
@@ -96,6 +119,7 @@ export default function EmployeesForm() {
             label="Department"
             onChange={handleInputChange}
             options={employeeServices.getDepartmentCollection()}
+            error={errors.departmentId}
           />
           <Controls.DatePicker
             name="hireDate"
@@ -111,7 +135,7 @@ export default function EmployeesForm() {
           />
           <div>
             <Controls.Button text="Submit" type="Submit" />
-            <Controls.Button text="Reset" color="default" />
+            <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
         </Grid>
       </Grid>
