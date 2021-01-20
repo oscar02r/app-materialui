@@ -67,7 +67,8 @@ export default function EmployeesForm() {
     e.preventDefault();
 
     if (validate()) {
-      window.alert("Hello word");
+      employeeServices.insertEmployee(values)
+      resetForm()
     }
   };
 
