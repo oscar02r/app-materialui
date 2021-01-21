@@ -8,7 +8,7 @@ import {
   TablePagination,
   TableSortLabel
 } from "@material-ui/core";
-import { Sort } from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function useTable(records, headCells) {
+
   const classes = useStyles();
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
@@ -50,7 +51,9 @@ export default function useTable(records, headCells) {
       <TableHead>
         <TableRow>
           {headCells.map((headCell) => (
-            <TableCell key={headCell.id}>
+            <TableCell key={headCell.id}
+              sortDirection={ orderBy === headCell.id ? order :false}>
+              {headCell.disableSorting ? headCell.label: 
             <TableSortLabel
                active={orderBy === headCell.id}
               direction={ orderBy === headCell.id ? order : 'asc'}
@@ -58,6 +61,7 @@ export default function useTable(records, headCells) {
             >
             {headCell.label}
             </TableSortLabel>
+              }
             </TableCell>
           ))}
         </TableRow>
