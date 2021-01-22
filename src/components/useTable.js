@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function useTable(records, headCells) {
+export default function useTable(records, headCells, filterFn,) {
 
   const classes = useStyles();
   const pages = [5, 10, 25];
@@ -59,6 +59,7 @@ export default function useTable(records, headCells) {
               direction={ orderBy === headCell.id ? order : 'asc'}
               onClick={ () => {handleSortRequest(headCell.id)}}
             >
+            
             {headCell.label}
             </TableSortLabel>
               }
@@ -112,7 +113,7 @@ export default function useTable(records, headCells) {
     return 0
   }
   const recorsAfterPagingAndSorting = () => {
-    return stableSort(records, getComparator(order, orderBy)).slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+    return stableSort(filterFn.fn(records), getComparator(order, orderBy)).slice(page * rowsPerPage, (page + 1) * rowsPerPage)
    // return records.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
