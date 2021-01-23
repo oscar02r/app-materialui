@@ -16,6 +16,7 @@ import useTable from "../../components/useTable";
 import * as EmployeesServices from "../../services/employessService";
 import { Controls } from "../../components/controls/Controls";
 import Popup from "../../components/Popup";
+import Notification from '../../components/Notification'
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -49,6 +50,7 @@ export default function Employess() {
     },
   });
   const [openPopup, setOpenPopup] = useState(false);
+  const [notify, setNotify] = useState({ isOpen:false, message:'', type:''})
 
   const {
     TbContainer,
@@ -71,13 +73,18 @@ export default function Employess() {
   };
 
   const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) EmployeesServices.insertEmployee(employee);
+    if (employee.id === 0) EmployeesServices.insertEmployee(employee);
     else
      EmployeesServices.updateEmployee(employee)
      setRecordForEdit(null)
      resetForm();
      setOpenPopup(false);
      setRecords(EmployeesServices.getAllEmployess());
+    setNotify({
+       isOpen:true,
+        message:'Submitted Successfully.',
+        type:'success'
+     })
   };
   const openInPopup = (item) => {
     setRecordForEdit(item);
@@ -149,6 +156,10 @@ export default function Employess() {
       >
         <EmployeesForm addOrEdit={addOrEdit} recordForEdit={recordForEdit} />
       </Popup>
+      <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
     </>
   );
 }

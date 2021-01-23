@@ -37,8 +37,8 @@ export default function EmployeesForm(props) {
       temp.departmentId =
       fieldValues.departmentId.length != 0 ? "" : "This field is requied.";
     setErrors({ ...temp });
-    if (fieldValues == values) return Object.values(temp).every((x) => 
-  x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => 
+  x === "");
   };
   const {
     values,
@@ -74,7 +74,7 @@ export default function EmployeesForm(props) {
   };
 
  useEffect(() => {
-   if(recordForEdit !=null)
+   if(recordForEdit !==null)
      setValues({
       ...recordForEdit
      })
